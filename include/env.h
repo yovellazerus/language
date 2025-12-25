@@ -4,7 +4,7 @@
 #include "object.h"
 #include "common.h"
 
-#define MAX_VARS 1024
+#define MAX_VARS_IN_SCOPE 1024
 
 typedef struct Env_t Env_t;
 

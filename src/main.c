@@ -3,8 +3,18 @@
 #include "../include/ast.h"
 #include "../include/object.h"
 
-#include "object.h"
-#include <stdlib.h>
+// Helper functions
+double* malloc_double(double x) {
+    double* p = malloc(sizeof(*p));
+    *p = x;
+    return p;
+}
+
+bool* malloc_bool(bool b) {
+    bool* p = malloc(sizeof(*p));
+    *p = b;
+    return p;
+}
 
 void test0(void){
 
@@ -54,10 +64,63 @@ void test0(void){
     Env_destroy(global_env);
 }
 
+void test1(void) {
+    Env_t* global_env = Env_create(NULL);
+
+    // ---------- Reals ----------
+    Node_t* a_assign = Assign(Var("a"), Literal(Object_ctor(ObjectType_real, malloc_double(10.0))));
+    Node_t* b_assign = Assign(Var("b"), Literal(Object_ctor(ObjectType_real, malloc_double(20.0))));
+    Node_t* c_assign = Assign(
+        Var("c"),
+        Add(Var("a"), Var("b"))
+    );
+    Node_t* dump_c = Dump(Var("c"));
+
+    // ---------- Booleans ----------
+    Node_t* flag_assign = Assign(
+        Var("flag"),
+        Literal(Object_ctor(ObjectType_bool, malloc_bool(true)))
+    );
+
+    // not_flag = flag OR flag (represented as Add in your AST)
+    Node_t* not_flag_assign = Assign(
+        Var("not_flag"),
+        Add(Var("flag"), Var("flag"))
+    );
+    Node_t* dump_flag = Dump(Var("not_flag"));
+
+    // ---------- Strings ----------
+    Node_t* s1_assign = Assign(Var("s1"), Literal(Object_ctor(ObjectType_string, strdup("Hello "))));
+    Node_t* s2_assign = Assign(Var("s2"), Literal(Object_ctor(ObjectType_string, strdup("World!"))));
+    Node_t* s3_assign = Assign(
+        Var("s3"),
+        Add(Var("s1"), Var("s2"))
+    );
+    Node_t* dump_s3 = Dump(Var("s3"));
+
+    // ---------- Collect statements ----------
+    Node_t* stmts[] = {
+        a_assign, b_assign, c_assign, dump_c,
+        flag_assign, not_flag_assign, dump_flag,
+        s1_assign, s2_assign, s3_assign, dump_s3
+    };
+    Node_t* root = Block(stmts, sizeof(stmts)/sizeof(stmts[0]));
+
+    // dump AST to dot format
+    AST_to_dot_format(root, "output/test1.dot");
+
+    // evaluate
+    AST_eval(root, global_env);
+
+    // cleanup
+    //AST_destroy(root);
+    Env_destroy(global_env);
+}
 
 int main(int argc, char* argv[]){
     (void) argc;
     (void) argv;
     test0();
+    test1();
     return 0;
 }
