@@ -26,6 +26,7 @@ typedef struct Token_t Token_t;
 
 Token_t* Token_create(TokenType type, const char* ident, size_t col, size_t row);
 void     Token_destroy(Token_t* tok);
+void     Token_dump(Token_t* tok);
 
 typedef struct Lexer_t Lexer_t;
 

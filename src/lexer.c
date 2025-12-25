@@ -207,6 +207,7 @@ Token_t* Lexer_nextToken(Lexer_t* lex){
 size_t Lexer_lexAll(Lexer_t* lex) {
     size_t count = 0;
     Token_t* tok;
+    tok->type = TokenType_err;
     while(tok->type != TokenType_eof){
         tok = Lexer_nextToken(lex);
         printf("Token: type: `%s` text='%s' row=%zu col=%zu\n", 
