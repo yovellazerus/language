@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #define RESET      "\x1b[0m"
 #define BLACK      "\x1b[30m"

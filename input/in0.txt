@@ -1,0 +1,7 @@
+# This is a comment
+x = 42
+y = 3.14
+flag = True
+name = "Alice"
+sum = x + y
+# Another comment

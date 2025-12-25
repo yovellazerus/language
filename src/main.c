@@ -2,6 +2,9 @@
 #include "../include/common.h"
 #include "../include/ast.h"
 #include "../include/object.h"
+#include "../include/lexer.h"
+
+#define MAX_SRC_SIZE 4096
 
 // Helper functions
 double* malloc_double(double x) {
@@ -117,10 +120,31 @@ void test1(void) {
     Env_destroy(global_env);
 }
 
+void test3(void){
+    char src[MAX_SRC_SIZE + 1];
+
+    const char* path = "input/in0.txt";
+    FILE* f = fopen(path, "r");
+    if(!f){
+        perror(path);
+        exit(1);
+    }
+
+    size_t bytes = fread(src, 1, MAX_SRC_SIZE, f);
+    src[bytes] = '\0';
+    fclose(f);
+
+    Lexer_t* lex = Lexer_create(src);
+    Lexer_lexAll(lex);
+    Lexer_destroy(lex);
+}
+
 int main(int argc, char* argv[]){
     (void) argc;
     (void) argv;
     test0();
     test1();
+    test3();
+
     return 0;
 }
