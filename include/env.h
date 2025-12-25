@@ -8,9 +8,9 @@
 
 typedef struct Env_t Env_t;
 
-Env_t*      Env_create(Env_t *parent);
-void        Env_insert(Env_t *Env_t, const char *name, Object_t *val);
-Object_t*   Env_search(Env_t *Env_t, const char *name);
-void        Env_destroy(Env_t *Env_t);
+Env_t*      Env_create(Env_t *perent);
+void        Env_insert(Env_t *env, const char *name, Object_t *val);
+Object_t*   Env_search(Env_t *env, const char *name);
+void        Env_destroy(Env_t *env);
 
 #endif

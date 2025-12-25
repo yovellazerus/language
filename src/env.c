@@ -12,6 +12,22 @@ struct Env_t {
     size_t var_count;
 };
 
+Env_t*  Env_create(Env_t *perent){
+    Env_t* res = (Env_t*)malloc(sizeof(*res));
+    if(!res) run_time_error("no system memory");
+    res->perent = perent;
+    memset(res->sym_table, 0, sizeof(res->sym_table));
+    res->var_count = 0;
+    return res;
+}
+
+void   Env_destroy(Env_t* env){
+    for(size_t i =0; i < env->var_count; i++){
+        _(env->sym_table[i].value, destroy);
+    }
+    free(env);
+}
+
 void Env_insert(Env_t* env, const char* name, Object_t* value){
     if(!env || !name){
         run_time_error("bad env or bad var name in `Env_insert`");

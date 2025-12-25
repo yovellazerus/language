@@ -12,6 +12,7 @@ INCLUDE := -Iinclude
 
 SRC_DIR := src
 BIN_DIR := bin
+OUT_DIR := output
 
 TARGET  := $(BIN_DIR)/minilang.exe
 
@@ -42,7 +43,7 @@ run: $(TARGET)
 
 clean:
 	del /Q $(BIN_DIR)\*.exe
-	del /Q *.dot
-	del /Q *.png
+	del /Q $(OUT_DIR)\*.dot
+	del /Q $(OUT_DIR)\*.png
 
 .PHONY: all run clean

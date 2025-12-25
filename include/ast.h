@@ -40,6 +40,7 @@ Node_t* Var(const char *name);
 Node_t* Assign(Node_t *lhs, Node_t *rhs);
 Node_t* Add(Node_t *lhs, Node_t *rhs);
 Node_t* Block(Node_t **stmts, size_t count);
+Node_t* Dump(Node_t* exr);
 
 Object_t* AST_assign(Node_t* var, Object_t* x, Env_t* env);
 void      AST_destroy(Node_t *node);

@@ -64,11 +64,11 @@ Node_t* Block(Node_t** statements, size_t count) {
     return (Node_t*)res;
 }
 
-Node_t* Dump(void){
+Node_t* Dump(Node_t* exr){
     Dump_t* res = malloc(sizeof(*res));
     if(!res) run_time_error("no system memory");
     res->base.type = NodeType_dump;
-    res->exr = NULL;
+    res->exr = exr;
     return (Node_t*)res; 
 }
 
@@ -278,7 +278,7 @@ void AST_destroy(Node_t* node){
             break;
         
         default:
-           run_time_error("unkown node type in AST dtor, type-code: %d", node->type);
+           run_time_error("unkown node type in `%s`, type-code: %d", __func__, node->type);
            break;
     }
     free(node);
