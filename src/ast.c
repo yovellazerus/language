@@ -137,7 +137,6 @@ Object_t* AST_eval(Node_t* node, Env_t* env){
     return NULL;
 }
 
-// only one global env for now...
 Object_t* AST_assign(Node_t* var, Object_t* x, Env_t* env){
     if(!var || var->type != NodeType_var){
         run_time_error("must assign to a var");

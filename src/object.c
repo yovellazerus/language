@@ -10,16 +10,21 @@ Object_t* Real_add(Object_t* a,  Object_t* b) {
     *result = *(double*)a->data + *(double*)b->data;
     return Object_ctor(ObjectType_real, result);
 }
+
 Object_t* Real_dump( Object_t* obj) {
     printf("%lf\n", *(double*)obj->data);
     return NULL;
 }
-bool Real_to_bool( Object_t* obj) {
-    return *(double*)obj->data != 0.0;
+
+Object_t* Real_to_bool( Object_t* obj) {
+    bool b = *(double*)obj->data != 0.0;
+    return Object_ctor(ObjectType_bool, (void*)&b);
 }
-void Real_dtor(Object_t* obj) {
+
+Object_t* Real_dtor(Object_t* obj) {
     free(obj->data);
     free(obj);
+    return NULL;
 }
 
 Object_VT_t Real_vt = {
@@ -51,16 +56,21 @@ Object_t* String_add( Object_t* a,  Object_t* b) {
 
     return Object_ctor(ObjectType_string, result);
 }
+
 Object_t* String_dump( Object_t* obj) {
     printf("%s\n", (const char*)obj->data);
     return NULL;
 }
-bool String_to_bool( Object_t* obj) {
-    return ((const char*)obj->data)[0] != '\0';
+
+Object_t* String_to_bool( Object_t* obj) {
+    bool b = ((const char*)obj->data)[0] != '\0';
+    return Object_ctor(ObjectType_bool, (void*)&b);
 }
-void String_dtor(Object_t* obj) {
+
+Object_t* String_dtor(Object_t* obj) {
     free(obj->data);
     free(obj);
+    return NULL;
 }
 
 Object_VT_t String_vt = {
@@ -97,13 +107,14 @@ Object_t* Bool_dump( Object_t* obj) {
     return NULL;
 }
 
-bool Bool_to_bool( Object_t* obj) {
-    return *(bool*)obj->data;
+Object_t* Bool_to_bool( Object_t* obj) {
+    return Object_ctor(ObjectType_bool, (bool*)obj->data);
 }
 
-void Bool_dtor(Object_t* obj) {
+Object_t* Bool_dtor(Object_t* obj) {
     free(obj->data);
     free(obj);
+    return NULL;
 }
 
 Object_VT_t Bool_vt = {

@@ -32,8 +32,8 @@ Token_t* Token_create(TokenType type, const char* ident, size_t col, size_t row)
 }
 
 void     Token_destroy(Token_t* tok){
-    free(tok->ident);
-    free(tok);
+    free((char*)tok->ident);
+    free((Token_t*)tok);
 }
 
 struct Lexer_t {
@@ -206,7 +206,8 @@ Token_t* Lexer_nextToken(Lexer_t* lex){
 
 size_t Lexer_lexAll(Lexer_t* lex) {
     size_t count = 0;
-    Token_t* tok;
+    Token_t t = {0};
+    Token_t* tok = &t;
     tok->type = TokenType_err;
     while(tok->type != TokenType_eof){
         tok = Lexer_nextToken(lex);

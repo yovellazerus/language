@@ -28,9 +28,9 @@ typedef struct Object_VT_t {
     Object_t* (*mul)(Object_t*, Object_t*);
     Object_t* (*div)(Object_t*, Object_t*);
     Object_t* (*cmp)(Object_t*, Object_t*);
-    bool      (*to_bool)(Object_t*);  // or to Bool_t?
+    Object_t* (*to_bool)(Object_t*);
     Object_t* (*dump)(Object_t*);
-    void      (*destroy)(Object_t*);
+    Object_t* (*destroy)(Object_t*);
 } Object_VT_t;
 
 /* forward declarations */
