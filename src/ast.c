@@ -1,8 +1,6 @@
 
 #include "../include/ast.h"
 
-Env_t* global_env = NULL;
-
 // virtual AST node struct
 struct Node_t {
     NodeType type;
