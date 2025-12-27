@@ -42,7 +42,6 @@ Node_t* Add(Node_t *lhs, Node_t *rhs);
 Node_t* Block(Node_t **stmts, size_t count);
 Node_t* Dump(Node_t* exr);
 
-Object_t* AST_assign(Node_t* var, Object_t* x, Env_t* env);
 void      AST_destroy(Node_t *node);
 Object_t* AST_eval(Node_t *node, Env_t* env);
 void      AST_to_dot_format(const Node_t *root, const char* path);  // for debug

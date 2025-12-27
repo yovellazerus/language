@@ -101,6 +101,8 @@ Node_t* Assign(Node_t *lhs, Node_t *rhs){
 Object_t* AST_eval(Node_t* node, Env_t* env){
     if(!node) run_time_error("bad AST node");
     Block_t* p = NULL;
+    Var_t* v = NULL;
+    Object_t* obj = NULL;
     Object_t* last = NULL;
     
     switch (node->type) {
@@ -112,7 +114,13 @@ Object_t* AST_eval(Node_t* node, Env_t* env){
             return _(AST_eval(((Add_t*)node)->left, env), add, AST_eval(((Add_t*)node)->right, env));
             
         case NodeType_assign:
-            return AST_assign(((Assign_t*)node)->left, AST_eval(((Assign_t*)node)->right, env), env);
+            v = (Var_t*)(((Assign_t*)node)->left);
+            if(!v || v->base.type != NodeType_var){
+                run_time_error("must assign to a var in function: `%s`", __func__);
+            }
+            obj = AST_eval(((Assign_t*)node)->right, env);
+            Env_insert(env, v->name, obj);
+            return obj;
             
         case NodeType_dump:
             return _(AST_eval(((Dump_t*)node)->exr, env), dump);
@@ -135,14 +143,6 @@ Object_t* AST_eval(Node_t* node, Env_t* env){
            break;
     }
     return NULL;
-}
-
-Object_t* AST_assign(Node_t* var, Object_t* x, Env_t* env){
-    if(!var || var->type != NodeType_var){
-        run_time_error("must assign to a var");
-    }
-    Env_insert(env, ((Var_t*)var)->name, x);
-    return x;
 }
 
 void Object_print_dot(const Object_t* obj, FILE* f, int* my_id);
